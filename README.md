@@ -3,6 +3,8 @@ Project 1 - Amazon Review and Q&A Search
 
 ### Due - Thursday, September 16, 2021 - 9:55am
 
+------
+
 For this project, you will implement a program to allow searching of a database of Amazon reviews and Q&A content. You will practice using the following:
 
 - Efficient data structures
