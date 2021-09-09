@@ -1,0 +1,84 @@
+/*
+ Author Name : Shubham Pareek
+ Class function : Blueprint of a review object and everything that it contains
+ Project Number : 1
+*/
+
+package cs601.project1;
+
+import java.util.Arrays;
+
+public class Review {
+    private String reviewerID;
+    private String asin;
+    private String reviewerName;
+    private String [] helpful;
+    private String reviewText;
+    private String overall;
+    private String summary;
+    private String unixReviewTime;
+    private String reviewTime;
+
+    public Review(String reviewerID, String asin, String reviewerName, String[] helpful, String reviewText, String overall, String summary, String unixReviewTime, String reviewTime) {
+        this.reviewerID = reviewerID;
+        this.asin = asin;
+        this.reviewerName = reviewerName;
+        this.helpful = helpful;
+        this.reviewText = reviewText;
+        this.overall = overall;
+        this.summary = summary;
+        this.unixReviewTime = unixReviewTime;
+        this.reviewTime = reviewTime;
+    }
+
+    public String getReviewerID() {
+        return reviewerID;
+    }
+
+    public String getAsin() {
+        return asin;
+    }
+
+    public String getReviewerName() {
+        return reviewerName;
+    }
+
+    public String[] getHelpful() {
+        return helpful;
+    }
+
+    public String getReviewText() {
+        return reviewText;
+    }
+
+    public String getOverall() {
+        return overall;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public String getUnixReviewTime() {
+        return unixReviewTime;
+    }
+
+    public String getReviewTime() {
+        return reviewTime;
+    }
+
+    @Override
+    public String toString() {
+        return "Review{" +
+                "reviewerID='" + reviewerID + '\'' +
+                ", asin='" + asin + '\'' +
+                ", reviewerName='" + reviewerName + '\'' +
+                ", helpful=" + Arrays.toString(helpful) +
+                ", reviewText='" + reviewText + '\'' +
+                ", overall='" + overall + '\'' +
+                ", summary='" + summary + '\'' +
+                ", unixReviewTime='" + unixReviewTime + '\'' +
+                ", reviewTime='" + reviewTime + '\'' +
+                '}';
+    }
+}
