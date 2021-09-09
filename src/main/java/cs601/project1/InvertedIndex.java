@@ -30,7 +30,7 @@ public class InvertedIndex {
                                                       4) Then we add those strings to our index HashMap with the string being the key, the docName (or) docID (tbd) being the value
 
         Algorithm for search and retrieval -> 1) Given the word we have to search, look up from our inverted index the documents it is present in
-                                              2) Once we have the list/set of documents, we need to search the document for the given word
+                                              2) Once we have the list/set of documents, we need to search the document for the given word //todo
 
 
 
@@ -74,7 +74,7 @@ public class InvertedIndex {
         ArrayList<Object> jsonObjects = new ArrayList<>();
         File f = new File(fileLoc);
         Gson gson = new Gson();
-        if (classKeys.get(key) == "Review") {
+        if (classKeys.get(key).equals("Review")) {
             try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(f), "ISO-8859-1"))) {
                 //temp for loop for testing purpose, we will use while loop in the actual code
                 for (int i = 0; i < 5; i++){
@@ -89,7 +89,7 @@ public class InvertedIndex {
                 e.printStackTrace();
             }
         }
-        else if (classKeys.get(key) == "QuestionAnswer") {
+        else if (classKeys.get(key).equals("QuestionAnswer")) {
             try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(f), "ISO-8859-1"))) {
                 //temp for loop for testing purpose, we will use while loop in the actual code
                 for (int i = 0; i < 5; i++){
