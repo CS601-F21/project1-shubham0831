@@ -9,45 +9,29 @@ import java.util.ArrayList;
 
 public class Test {
     public static void main(String[] args) {
-        Gson gson = new Gson();
+        String file1 = "/home/shubham/IdeaProjects/project1-shubham0831/Cell_Phones_and_Accessories_5.json";
+        String file2 = "/home/shubham/IdeaProjects/project1-shubham0831/qa_Cell_Phones_and_Accessories.json";
 
-        String fileLoc = "/home/shubham/IdeaProjects/project1-shubham0831/Cell_Phones_and_Accessories_5.json";
-        ArrayList<String> jsonObjects = readFile(fileLoc);
-        for (String s : jsonObjects){
-            Review r = gson.fromJson(s, Review.class);
-        }
+        FileParser fp = new FileParser();
+        ArrayList <String> doc1 = fp.parseFile(file1, "Review");
+        ArrayList <String> doc2 = fp.parseFile(file2, "QuestionAnswer");
 
-        fileLoc = "/home/shubham/IdeaProjects/project1-shubham0831/qa_Cell_Phones_and_Accessories.json";
-        jsonObjects = readFile(fileLoc);
-        for (String s : jsonObjects){
-            QuestionAnswer q = gson.fromJson(s, QuestionAnswer.class);
-            System.out.println(q);
-            System.out.println("+===============+");
-        }
+        //now pass both the docs into the invertedIndex.
+        InvertedIndex index = new InvertedIndex();
+        index.addDocument(doc1, "d1");
+        index.addDocument(doc2, "d2");
+
+        /*
+            The data which we pass into our invertedIndex will just be and ArrayList of HashMap (tbd) plain string, or string representation of the the objects. Ie. object.toString()
+            This will ensure that our InvertedIndex remains agnostic of the input files.
+
+            The HashMap can contain the keyValue pair {documentID, ArrayList<document.toString()>} making it easier for the inverted index to index the file.
+
+            Thought -> While making it easier to index, when we will search the document for the relevant keywords, we might have to brute force search through all the elements in the arrayList
+        */
+
+
 
     }
 
-    public static ArrayList<String> readFile (String fileLoc){
-        ArrayList<String> jsonObjects = new ArrayList<>();
-        File f = new File(fileLoc);
-        Gson gson = new Gson();
-
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(f), "ISO-8859-1"))) {
-            for (int i = 0; i < 5; i++){
-                String line = br.readLine();
-                jsonObjects.add(line);
-            }
-//            while (br.readLine() != null){
-//
-//            }
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return jsonObjects;
-    }
 }

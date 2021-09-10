@@ -57,23 +57,22 @@ public class QuestionAnswer {
     @Override
     public String toString() {
         if (answerType == null){
-            return "QuestionAnswer{" +
-                    "questionType='" + questionType + '\'' +
-                    ", asin='" + asin + '\'' +
-                    ", answerTime='" + answerTime + '\'' +
-                    ", unixTime='" + unixTime + '\'' +
-                    ", question='" + question + '\'' +
-                    ", answer='" + answer + '\'' +
-                    '}';
+            //do not return the answer type if the answerType is null
+            //need it since answerType is an optional field only present when the
+            //questionType == 'yes/no'
+            return "questionType: '" + questionType + '\'' +
+                    ", asin: '" + asin + '\'' +
+                    ", answerTime: '" + answerTime + '\'' +
+                    ", unixTime: '" + unixTime + '\'' +
+                    ", question: '" + question + '\'' +
+                    ", answer: '" + answer + '\'';
         }
-        return "QuestionAnswer{" +
-                "questionType='" + questionType + '\'' +
-                ", asin='" + asin + '\'' +
-                ", answerTime='" + answerTime + '\'' +
-                ", unixTime='" + unixTime + '\'' +
-                ", question='" + question + '\'' +
-                ", answerType='" + answerType + '\'' +
-                ", answer='" + answer + '\'' +
-                '}';
+        return  "questionType: '" + questionType + '\'' +
+                ", asin: '" + asin + '\'' +
+                ", answerTime: '" + answerTime + '\'' +
+                ", unixTime: '" + unixTime + '\'' +
+                ", question: '" + question + '\'' +
+                ", answerType: '" + answerType + '\'' +
+                ", answer: '" + answer + '\'';
     }
 }

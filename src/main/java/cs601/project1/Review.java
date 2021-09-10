@@ -69,16 +69,14 @@ public class Review {
 
     @Override
     public String toString() {
-        return "Review{" +
-                "reviewerID='" + reviewerID + '\'' +
-                ", asin='" + asin + '\'' +
-                ", reviewerName='" + reviewerName + '\'' +
-                ", helpful=" + Arrays.toString(helpful) +
-                ", reviewText='" + reviewText + '\'' +
-                ", overall='" + overall + '\'' +
-                ", summary='" + summary + '\'' +
-                ", unixReviewTime='" + unixReviewTime + '\'' +
-                ", reviewTime='" + reviewTime + '\'' +
-                '}';
+        return  "reviewerID: '" + reviewerID + '\'' +
+                ", asin: '" + asin + '\'' +
+                ", reviewerName: '" + reviewerName + '\'' +
+                ", helpful: " + Arrays.toString(helpful) +
+                ", reviewText: '" + reviewText + '\'' +
+                ", overall: '" + overall + '\'' +
+                ", summary: '" + summary + '\'' +
+                ", unixReviewTime: '" + unixReviewTime + '\'' +
+                ", reviewTime: '" + reviewTime + '\'';
     }
 }
