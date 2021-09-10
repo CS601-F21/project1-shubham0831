@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 //carefully see the json file and have according file type
 
@@ -16,10 +18,28 @@ public class Test {
         ArrayList <String> doc1 = fp.parseFile(file1, "Review");
         ArrayList <String> doc2 = fp.parseFile(file2, "QuestionAnswer");
 
+        for (String s : doc1){
+            System.out.println(s);
+        }
+
+        System.out.println("---------------");
+
+        for (String s : doc2){
+            System.out.println(s);
+        }
+
+        System.out.println("----------------");
+
+
         //now pass both the docs into the invertedIndex.
         InvertedIndex index = new InvertedIndex();
         index.addDocument(doc1, "d1");
         index.addDocument(doc2, "d2");
+
+        HashMap<String, HashSet<String>> invertedIndex = index.getInvertedIndex();
+
+        System.out.println(invertedIndex.get("1466736038"));
+
 
         /*
             The data which we pass into our invertedIndex will just be and ArrayList of HashMap (tbd) plain string, or string representation of the the objects. Ie. object.toString()

@@ -4,7 +4,7 @@
  Project Number : 1
 */
 
-//references //https://stackoverflow.com/questions/11796985/java-regular-expression-to-remove-all-non-alphanumeric-characters-except-spaces to get regex for removing non-alphanumeric characters
+//references https://stackoverflow.com/questions/11796985/java-regular-expression-to-remove-all-non-alphanumeric-characters-except-spaces to get regex for removing non-alphanumeric characters
 
 package cs601.project1;
 
@@ -46,19 +46,20 @@ public class InvertedIndex {
             line = line.replaceAll("[^a-zA-Z0-9\\s]", "");
             String[] words = line.split(" ");
             for (String word : words){
-                if (!invertedIndex.containsKey(word)){
+                word = word.toLowerCase().strip();
+                if (!invertedIndex.containsKey(word) && word != ""){
                     HashSet<String> docSet = new HashSet<>();
                     docSet.add(docId);
+                    invertedIndex.put(word, docSet);
                 }
-                else {
+                else if (word != "") {
                     invertedIndex.get(word).add(docId);
                 }
             }
         }
-
-
-
     }
 
-
+    public HashMap<String, HashSet<String>> getInvertedIndex() {
+        return invertedIndex;
+    }
 }

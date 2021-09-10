@@ -41,40 +41,40 @@ public class FileParser {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(f), "ISO-8859-1"))) {
             if (objType.equals("Review")){
                 String line;
-                while ((line = br.readLine()) != null){
-                    try {
-                        String review = gson.fromJson(line, Review.class).toString();
-                        jsonObjects.add(review);
-                    }
-                    catch (JsonSyntaxException jse){
-                        continue;
-                    }
-                }
-                //temp for loop for testing purpose, we will use while loop in the actual code
-//                for (int i = 0; i < 5; i++){
-//                    //removing every nonalphanumeric chars from the string
-//                    String review = gson.fromJson(br.readLine(), Review.class).toString();
-//                    //String review = gson.fromJson(br.readLine(), Review.class).toString().replaceAll("[^A-Za-z0-9\\s\\+]", "");;
-//                    jsonObjects.add(review);
+//                while ((line = br.readLine()) != null){
+//                    try {
+//                        String review = gson.fromJson(line, Review.class).toString();
+//                        jsonObjects.add(review);
+//                    }
+//                    catch (JsonSyntaxException jse){
+//                        continue;
+//                    }
 //                }
+                //temp for loop for testing purpose, we will use while loop in the actual code
+                for (int i = 0; i < 5; i++){
+                    //removing every nonalphanumeric chars from the string
+                    String review = gson.fromJson(br.readLine(), Review.class).toString();
+                    //String review = gson.fromJson(br.readLine(), Review.class).toString().replaceAll("[^A-Za-z0-9\\s\\+]", "");;
+                    jsonObjects.add(review);
+                }
             }
             else if (objType.equals("QuestionAnswer")){
                 String line;
-                while ((line = br.readLine()) != null){
-                    try{
-                        String qa = gson.fromJson(line, QuestionAnswer.class).toString();
-                        jsonObjects.add(qa);
-                    }
-                    catch (JsonSyntaxException jse){
-                        continue;
-                    }
-                }
-                //temp for loop for testing purpose, we will use while loop in the actual code
-//                for (int i = 0; i < 5; i++){
-//                    String qa = gson.fromJson(br.readLine(), QuestionAnswer.class).toString();
-//                    //String qa = gson.fromJson(br.readLine(), QuestionAnswer.class).toString().replaceAll("[^A-Za-z0-9\\s]", "");;
-//                    jsonObjects.add(qa);
+//                while ((line = br.readLine()) != null){
+//                    try{
+//                        String qa = gson.fromJson(line, QuestionAnswer.class).toString();
+//                        jsonObjects.add(qa);
+//                    }
+//                    catch (JsonSyntaxException jse){
+//                        continue;
+//                    }
 //                }
+                //temp for loop for testing purpose, we will use while loop in the actual code
+                for (int i = 0; i < 5; i++){
+                    String qa = gson.fromJson(br.readLine(), QuestionAnswer.class).toString();
+                    //String qa = gson.fromJson(br.readLine(), QuestionAnswer.class).toString().replaceAll("[^A-Za-z0-9\\s]", "");;
+                    jsonObjects.add(qa);
+                }
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
