@@ -33,6 +33,10 @@ public class InvertedIndex {
 
 
     */
+
+    /*
+        todo implement sorting as well, show results where the words appear most frequently
+    */
     private HashMap<String, HashSet<String>> invertedIndex = new HashMap<>(); //is the inverted index
     private HashMap <String, ArrayList<String>> documents = new HashMap<>(); //is the hashmap which stores the documents
                                                                              //the key will be the document id, and the value is the document.
@@ -40,6 +44,8 @@ public class InvertedIndex {
     public void cleanDoc (ArrayList<String> doc){
         //given any arraylist of strings, this method will remove all alphanumeric characters for the strings in the list
         for (int i = 0; i < doc.size(); i++){
+            //here the ^ is inside the bracket meaning that replace anything around alphanumeric charcaters with "";
+            // \\s is for space, since we dont want to remove space right now
             doc.set(i, doc.get(i).replaceAll("[^a-zA-Z0-9\\s]", ""));
         }
     }
@@ -74,14 +80,14 @@ public class InvertedIndex {
 
     private ArrayList<String> findKey (String key){
         key = key.toLowerCase(); //all indexes are in lowerCase
-        HashSet<String> docs = invertedIndex.get(key); // is the set of doc ID which contains the given string
+        HashSet<String> docs = searchIndex(key, true); // is the set of doc ID which contains the given string
         if (docs == null){
             //return empty list if no match found
             return new ArrayList<String>();
         }
 
         ArrayList<String> matches = new ArrayList<>(); // is the arraylist which will store all the lines which do have the string
-        Pattern pattern = Pattern.compile("\\b"+key+"\\b");
+        Pattern pattern = Pattern.compile("\\b"+key+"\\b"); // \\b for word end or beginning
         Matcher matcher;
 
 
@@ -110,17 +116,34 @@ public class InvertedIndex {
             //cuz findKey return empty arraylist if no matches are found
             //so we output this out
             System.out.println("No matches found");
+            return;
         }
-        else {
-            //otherwise print all the matches
-            for (String s : match){
-                System.out.println(s);
-            }
+        //otherwise print all the matches
+        for (String line : match){
+            System.out.println(line);
         }
     }
 
+
     private ArrayList<String> partialMatch (String key){
-        return new ArrayList<String>();
+        key = key.toLowerCase(); //all indexes are in lowerCase
+        //todo key is not in the searchIndex, since that does a comprehensive search, we have to iterate through all keys and check if key contains tha
+        HashSet<String> docs = searchIndex(key, false); // is the set of doc ID which contains the given string
+        if (docs == null){
+            //return empty list if no match found
+            return new ArrayList<String>();
+        }
+
+        ArrayList<String> matches = new ArrayList<>(); // is the arraylist which will store all the lines which do have the string
+        for (String docId : docs){
+            ArrayList<String> document = documents.get(docId);
+            for (String line : document){
+                if (line.contains(key)){
+                    matches.add(line);
+                }
+            }
+        }
+        return matches;
     }
 
     public void partialFind (String key){
@@ -129,15 +152,48 @@ public class InvertedIndex {
             throw new InvalidParameterException("Key should not contain alphanumerics");
         }
         ArrayList<String> match = partialMatch(key);
+        if (match.size() == 0){
+            System.out.println("No matches found");
+            return;
+        }
+
+        for (String line : match){
+            System.out.println(line);
+        }
+
 
     }
 
     private boolean validateQuery (String word){
-        return true;
+        // regex explained ^ -> beginning of string
+        // [a-zA-Z0-9] any char which is alphanumeric
+        //*$ end of string
+        // ^ is outside the square brackets, meaning consider the whole string and not just where the alphanumeric characters start
+        Pattern p = Pattern.compile("^[a-zA-Z0-9]*$");
+        return p.matcher(word).find();
     }
 
-    private HashSet<String> searchIndex (String word){
-        return invertedIndex.get(word);
+    private HashSet<String> searchIndex (String word, boolean fullWord){
+        /*
+            params -> word -> word to be searched for
+                      fullWord -> is a boolean which if true means we search for a full word
+                                  else we search for partial word
+
+        */
+        if (fullWord){
+            return invertedIndex.get(word);
+        }
+
+        //since method has to return a set, we create one, and add documents which contain said partial word into this set
+        HashSet<String> docs = new HashSet<>();
+        for (String key : invertedIndex.keySet()){
+            if (key.contains(word)){
+                for (String d : invertedIndex.get(key)){
+                    docs.add(d);
+                }
+            }
+        }
+        return docs;
     }
 
     public HashMap<String, HashSet<String>> getInvertedIndex() {

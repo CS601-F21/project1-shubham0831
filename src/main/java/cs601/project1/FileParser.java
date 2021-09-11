@@ -49,44 +49,50 @@ public class FileParser {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(f), "ISO-8859-1"))) {
             if (objType.equals("Review")){
                 String line;
-//                while ((line = br.readLine()) != null){
-//                    try {
-//                        Review r = gson.fromJson(br.readLine(), Review.class);
-//                        String review = r.getAsin() + " " + r.getReviewText().toLowerCase() ;
-//                        jsonObjects.add(review);
-//                    }
-//                    catch (JsonSyntaxException jse){
-//                        continue;
-//                    }
-//                }
-                //temp for loop for testing purpose, we will use while loop in the actual code
-                for (int i = 0; i < 5; i++){
-                    //removing every non alphanumeric chars from the string
-                    Review r = gson.fromJson(br.readLine(), Review.class);
-                    String review = r.getAsin() + " " + r.getReviewText() ;
-                    review = review.toLowerCase();
-                    jsonObjects.add(review);
+                int i = 0;
+                while ((line = br.readLine()) != null){
+                    try {
+                        Review r = gson.fromJson(line, Review.class);
+                        i++;
+                        String review = r.getAsin() + " " + r.getReviewText();
+                        review = review.toLowerCase();
+                        jsonObjects.add(review);
+                    }
+                    catch (JsonSyntaxException jse){
+                        continue;
+                    }
                 }
+                //temp for loop for testing purpose, we will use while loop in the actual code
+//                for (int i = 0; i < 5; i++){
+//                    //removing every non alphanumeric chars from the string
+//                    Review r = gson.fromJson(br.readLine(), Review.class);
+//                    String review = r.getAsin() + " " + r.getReviewText() ;
+//                    review = review.toLowerCase();
+//                    jsonObjects.add(review);
+//                }
             }
             else if (objType.equals("QuestionAnswer")){
                 String line;
-//                while ((line = br.readLine()) != null){
-//                    try{
-//                        QuestionAnswer questionAndAnswers = gson.fromJson(br.readLine(), QuestionAnswer.class);
-//                        String qa = questionAndAnswers.getAsin() + " " + questionAndAnswers.getQuestion() + " " + questionAndAnswers.getAnswer().toLowerCase();
-//                        jsonObjects.add(qa);
-//                    }
-//                    catch (JsonSyntaxException jse){
-//                        continue;
-//                    }
-//                }
-                //temp for loop for testing purpose, we will use while loop in the actual code
-                for (int i = 0; i < 5; i++){
-                    QuestionAnswer questionAndAnswers = gson.fromJson(br.readLine(), QuestionAnswer.class);
-                    String qa = questionAndAnswers.getAsin() + " " + questionAndAnswers.getQuestion() + " " + questionAndAnswers.getAnswer();
-                    qa = qa.toLowerCase();
-                    jsonObjects.add(qa);
+                int i = 0;
+                while ((line = br.readLine()) != null){
+                    try{
+                        QuestionAnswer questionAndAnswers = gson.fromJson(line, QuestionAnswer.class);
+                        String qa = questionAndAnswers.getAsin() + " " + questionAndAnswers.getQuestion() + " " + questionAndAnswers.getAnswer();
+                        qa = qa.toLowerCase(); //doing this in separate line, since since otherwise we lowerCase getAnswer and alternative sol with make line too long
+                        i++;
+                        jsonObjects.add(qa);
+                    }
+                    catch (JsonSyntaxException jse){
+                        continue;
+                    }
                 }
+                //temp for loop for testing purpose, we will use while loop in the actual code
+//                for (int i = 0; i < 5; i++){
+//                    QuestionAnswer questionAndAnswers = gson.fromJson(br.readLine(), QuestionAnswer.class);
+//                    String qa = questionAndAnswers.getAsin() + " " + questionAndAnswers.getQuestion() + " " + questionAndAnswers.getAnswer();
+//                    qa = qa.toLowerCase();
+//                    jsonObjects.add(qa);
+//                }
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();

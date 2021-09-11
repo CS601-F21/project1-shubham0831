@@ -1,8 +1,5 @@
 package cs601.project1;
 
-import com.google.gson.Gson;
-
-import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -27,12 +24,11 @@ public class Test {
 //        }
 //
 //        System.out.println("+====+");
-
+//
 //        for (String s : doc2){
 //            System.out.println(s);
 //        }
-//
-//        System.out.println("+=====+");
+
 
 
         //now pass both the docs into the invertedIndex.
@@ -40,38 +36,22 @@ public class Test {
         index.addDocument(doc1, "d1");
         index.addDocument(doc2, "d2");
 
+        System.out.println("Index built +++++++++++++++++");
+
         HashMap<String, HashSet<String>> invertedIndex = index.getInvertedIndex();
-        index.find("120401325x");
-//        System.out.println(invertedIndex.get(key));
+        System.out.println("Full search ");
+        String key = "perfect";
+        index.find(key);
+        System.out.println("=======++++");
+        System.out.println("partial search");
+        key = "p";
+        index.partialFind(key);
+        System.out.println("============");
 
-
-
-//        for (String s: invertedIndex.keySet()){
-//            System.out.println(s + " ===> " + invertedIndex.get(s));
-//        }
-
-        /*
-            For the review dataset you will index the text in the field reviewText. For the Q&A dataset
-            you will index both the question and answer fields. This will allow you to search for a term and
-            get a list of reviews where the review text contains the term and a list of Q&A results where the
-            question or answer contains the term.
-
-            todo right now we are indexing every word, we only have to index the question and answer from the QA Dataset
-                 and only the reviews from the review Dataset
-        */
-
-
-        /*
-            The data which we pass into our invertedIndex will just be and ArrayList of HashMap (tbd) plain string, or string representation of the the objects. Ie. object.toString()
-            This will ensure that our InvertedIndex remains agnostic of the input files.
-
-            The HashMap can contain the keyValue pair {documentID, ArrayList<document.toString()>} making it easier for the inverted index to index the file.
-
-            Thought -> While making it easier to index, when we will search the document for the relevant keywords, we might have to brute force search through all the elements in the arrayList
-        */
 
 
 
     }
+
 
 }
