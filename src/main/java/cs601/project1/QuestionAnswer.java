@@ -75,4 +75,5 @@ public class QuestionAnswer {
                 ", answerType: '" + answerType + '\'' +
                 ", answer: '" + answer + '\'';
     }
+
 }

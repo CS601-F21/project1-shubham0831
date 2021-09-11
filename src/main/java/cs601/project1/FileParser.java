@@ -13,6 +13,7 @@ import com.google.gson.stream.MalformedJsonException;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class FileParser {
     //class that takes in String file location and String objectType as arguments to the constructor
@@ -23,6 +24,13 @@ public class FileParser {
             todo Ask Sami whether we can assume that a single file can only have the same type of object
                  Currently we are only parsing json files, write code which will also be able to parse .txt and .csv
                  files at the least.
+        */
+
+        /*
+            todo right now we are indexing every word, we only have to index the question and answer from the QA Dataset
+                 and only the reviews from the review Dataset.
+                 Probably make return type the string representation of ASIN, reviews for Review object
+                                           the string representation of ASIN, Questions and Answers for the QA Object.
         */
 
         /*
@@ -43,7 +51,8 @@ public class FileParser {
                 String line;
 //                while ((line = br.readLine()) != null){
 //                    try {
-//                        String review = gson.fromJson(line, Review.class).toString();
+//                        Review r = gson.fromJson(br.readLine(), Review.class);
+//                        String review = r.getAsin() + " " + r.getReviewText().toLowerCase() ;
 //                        jsonObjects.add(review);
 //                    }
 //                    catch (JsonSyntaxException jse){
@@ -52,9 +61,10 @@ public class FileParser {
 //                }
                 //temp for loop for testing purpose, we will use while loop in the actual code
                 for (int i = 0; i < 5; i++){
-                    //removing every nonalphanumeric chars from the string
-                    String review = gson.fromJson(br.readLine(), Review.class).toString();
-                    //String review = gson.fromJson(br.readLine(), Review.class).toString().replaceAll("[^A-Za-z0-9\\s\\+]", "");;
+                    //removing every non alphanumeric chars from the string
+                    Review r = gson.fromJson(br.readLine(), Review.class);
+                    String review = r.getAsin() + " " + r.getReviewText() ;
+                    review = review.toLowerCase();
                     jsonObjects.add(review);
                 }
             }
@@ -62,7 +72,8 @@ public class FileParser {
                 String line;
 //                while ((line = br.readLine()) != null){
 //                    try{
-//                        String qa = gson.fromJson(line, QuestionAnswer.class).toString();
+//                        QuestionAnswer questionAndAnswers = gson.fromJson(br.readLine(), QuestionAnswer.class);
+//                        String qa = questionAndAnswers.getAsin() + " " + questionAndAnswers.getQuestion() + " " + questionAndAnswers.getAnswer().toLowerCase();
 //                        jsonObjects.add(qa);
 //                    }
 //                    catch (JsonSyntaxException jse){
@@ -71,8 +82,9 @@ public class FileParser {
 //                }
                 //temp for loop for testing purpose, we will use while loop in the actual code
                 for (int i = 0; i < 5; i++){
-                    String qa = gson.fromJson(br.readLine(), QuestionAnswer.class).toString();
-                    //String qa = gson.fromJson(br.readLine(), QuestionAnswer.class).toString().replaceAll("[^A-Za-z0-9\\s]", "");;
+                    QuestionAnswer questionAndAnswers = gson.fromJson(br.readLine(), QuestionAnswer.class);
+                    String qa = questionAndAnswers.getAsin() + " " + questionAndAnswers.getQuestion() + " " + questionAndAnswers.getAnswer();
+                    qa = qa.toLowerCase();
                     jsonObjects.add(qa);
                 }
             }
