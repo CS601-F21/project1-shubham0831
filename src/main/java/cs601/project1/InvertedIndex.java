@@ -38,10 +38,12 @@ public class InvertedIndex {
         todo implement sorting as well, show results where the words appear most frequently
     */
     private HashMap<String, HashSet<String>> invertedIndex = new HashMap<>(); //is the inverted index
-    private HashMap <String, ArrayList<String>> documents = new HashMap<>(); //is the hashmap which stores the documents
+    private HashMap <String, String> documents = new HashMap<>(); //is the hashmap which stores the documents
                                                                              //the key will be the document id, and the value is the document.
+    private int docNumber = 0;
+    private String docPrefix = "D";
 
-    public void cleanDoc (ArrayList<String> doc){
+    public void cleanFile (ArrayList<String> doc){
         //given any arraylist of strings, this method will remove all alphanumeric characters for the strings in the list
         for (int i = 0; i < doc.size(); i++){
             //here the ^ is inside the bracket meaning that replace anything around alphanumeric charcaters with "";
@@ -50,32 +52,44 @@ public class InvertedIndex {
         }
     }
 
-    public void addDocument (ArrayList<String> doc, String docId){
+    public HashMap<String, String> getDocuments() {
+        return documents;
+    }
+
+    public void addDocument (String line){
         //method to add documents to the invertedIndex
-        if (documents.containsKey(docId)){ //this method only allows new documents
-            throw new InvalidParameterException("Key already exists, if you want to update an existing document you InvertedIndex.update() method");
-        }
 
-        cleanDoc(doc);
-        documents.put(docId, doc); //putting the document in the documents HashMap
+        //we create our docId as we enter a document, this method is preferred since the way our program works is,
+        //a user can input multiple documents as one, using the addFile method. So if the user decides to add 2 files
+        //instead of trying to figure out what id to give the file, we can just create it over here and be sure that there
+        //is no conflicts
+        docNumber++;
+        String docId = docPrefix+docNumber; //our docId will start from D1
+        documents.put(docId, line);
 
-
-        for (String line : doc){
-            String[] words = line.split(" ");
-            for (String word : words){
-                word = word.toLowerCase().strip();
-                if (!invertedIndex.containsKey(word) && word != ""){
-                    HashSet<String> docSet = new HashSet<>();
-                    docSet.add(docId);
-                    invertedIndex.put(word, docSet);
-                    //System.out.println("1 ==>"  + invertedIndex);
-                }
-                else if (word != "") {
-                    invertedIndex.get(word).add(docId);
-                    //System.out.println(invertedIndex);
-                }
+        String [] words = line.split(" ");
+        for (String word : words){
+            word = word.toLowerCase().strip();
+            if (!invertedIndex.containsKey(word) && word != ""){
+                //if our invertedIndex does not have the word, we create the set which stores all the document the
+                //word is in then we enter the word-set pair into the invertedIndex hashmap
+                HashSet<String> docSet = new HashSet<>();
+                docSet.add(docId);
+                invertedIndex.put(word, docSet);
+            }
+            else if (word != ""){
+                invertedIndex.get(word).add(docId); //get the set of docs which contain the word, and add current docs
+                                                    //to that set
             }
         }
+    }
+
+    public void addFile (ArrayList<String> file){
+        cleanFile(file);
+        for (String line : file){
+            addDocument(line);
+        }
+
     }
 
     private ArrayList<String> findKey (String key){
@@ -92,14 +106,10 @@ public class InvertedIndex {
 
 
         for (String docId : docs){
-            ArrayList<String> document = documents.get(docId);
-
-            for (String line : document){
-                //using matches instead of contains, as it does full match
-                matcher = pattern.matcher(line);
-                if (matcher.find()){
-                    matches.add(line);
-                }
+            String document = documents.get(docId);
+            matcher = pattern.matcher(document);
+            if (matcher.find()){
+                matches.add(document);
             }
         }
         return matches;
@@ -118,7 +128,7 @@ public class InvertedIndex {
             System.out.println("No matches found");
             return;
         }
-        //otherwise print all the matches
+        //otherwise, print all the matches
         for (String line : match){
             System.out.println(line);
         }
@@ -136,11 +146,9 @@ public class InvertedIndex {
 
         ArrayList<String> matches = new ArrayList<>(); // is the arraylist which will store all the lines which do have the string
         for (String docId : docs){
-            ArrayList<String> document = documents.get(docId);
-            for (String line : document){
-                if (line.contains(key)){
-                    matches.add(line);
-                }
+            String document = documents.get(docId);
+            if (document.contains(key)){
+                matches.add(document);
             }
         }
         return matches;
@@ -178,6 +186,8 @@ public class InvertedIndex {
             params -> word -> word to be searched for
                       fullWord -> is a boolean which if true means we search for a full word
                                   else we search for partial word
+
+            This method returns a set of docId which contains the given word, that set can then be used to get access to the full doc
 
         */
         if (fullWord){

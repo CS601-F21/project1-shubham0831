@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class AmazonSearch {
 
     public static void main(String[] args) {
-        FileParser fp = new FileParser();
+        FileParser fp = new FileParser("ISO-8859-1");
         String [] a = {"a", "b", "c"};
         Review r;
         ArrayList<Object> b = testMethod("aa");

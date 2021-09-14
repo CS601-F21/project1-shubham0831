@@ -10,11 +10,10 @@ import java.util.regex.Pattern;
 
 public class Test {
     public static void main(String[] args) {
-
         String file1 = "/home/shubham/IdeaProjects/project1-shubham0831/Cell_Phones_and_Accessories_5.json";
         String file2 = "/home/shubham/IdeaProjects/project1-shubham0831/qa_Cell_Phones_and_Accessories.json";
 
-        FileParser fp = new FileParser();
+        FileParser fp = new FileParser("ISO-8859-1");
         ArrayList <String> doc1 = fp.parseFile(file1, "Review");
         ArrayList <String> doc2 = fp.parseFile(file2, "QuestionAnswer");
 
@@ -32,26 +31,20 @@ public class Test {
 
 
         //now pass both the docs into the invertedIndex.
-        InvertedIndex index = new InvertedIndex();
-        index.addDocument(doc1, "d1");
-        index.addDocument(doc2, "d2");
+        InvertedIndex index1 = new InvertedIndex();
+        InvertedIndex index2 = new InvertedIndex();
+        index1.addFile(doc1);
+        index2.addFile(doc2);
 
         System.out.println("Index built +++++++++++++++++");
 
-        HashMap<String, HashSet<String>> invertedIndex = index.getInvertedIndex();
+        HashMap<String, String> invertedIndex = index1.getDocuments();
+//        for (String key : invertedIndex.keySet()){
+//            System.out.println(key + " --> " +invertedIndex.get(key));
+//        }
         System.out.println("Full search ");
-        String key = "perfect";
-        index.find(key);
+        String key = "these";
+        index1.find(key);
         System.out.println("=======++++");
-        System.out.println("partial search");
-        key = "p";
-        index.partialFind(key);
-        System.out.println("============");
-
-
-
-
     }
-
-
 }
