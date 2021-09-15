@@ -15,23 +15,6 @@ import java.util.ArrayList;
 public class AmazonSearch {
 
     public static void main(String[] args) {
-        FileParser fp = new FileParser("ISO-8859-1");
-        String [] a = {"a", "b", "c"};
-        Review r;
-        ArrayList<Object> b = testMethod("aa");
-        ArrayList<Review> c = (ArrayList<Review>)(ArrayList<?>)(b);
-        for (Review d : c){
-            System.out.println(d.toString());
-        }
+
     }
-
-    public static ArrayList<Object> testMethod (String something){
-        ArrayList<Object> a = new ArrayList<>();
-        String[] b = {"0", "0"};
-        a.add(new Review("a", "b", "c", b,"e", "f", "g", "h", "i" ));
-        a.add(new Review("j", "k", "l", b,"m", "n", "o", "p", "q" ));
-
-        return a;
-    }
-
 }
