@@ -5,7 +5,6 @@
 package cs601.project1;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 
 import java.io.*;
 import java.security.InvalidParameterException;
@@ -13,6 +12,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.regex.Pattern;
+
+/*
+    ReviewList and QAList will have alot of the same methods. Make an abstract class ItemList which will have those common methods as well as abstract methods for when we
+    need our own implementation.
+
+    common methods -> cleanString, searchIndex, partialSearchIndex, validateQuery, findASIN, printKey, printPartialKey, printAsin
+    abstract methods -> populateReviewList ( will become populateList), populateReviewsToBeIndexed ( -> populateListToBeIndexed), populateAsinToReviews ( -> populateAsinToItems)
+    not sure yet -> addToIndex (prolly abstract method)
+
+    common variables -> reviewsToBeIndexed (-> itemToBeIndexed), idToReviews (-> idToItems), asinToReview (-> asinToItem), invertedIndex
+*/
 
 public class ReviewList {
 
@@ -61,8 +71,6 @@ public class ReviewList {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //        ArrayList<String> objToBeReturned = (ArrayList<String>)(ArrayList<?>)(jsonObjects);
-        //        return objToBeReturned;
     }
 
     public void addToIndex (String fileLoc){
@@ -115,7 +123,7 @@ public class ReviewList {
         return cleanLine;
     }
 
-    public HashSet<String> searchIndex (String word){
+    public ArrayList<String> searchIndex (String word){
         //method to search the index for a given key
         boolean validQuery = validateQuery(word);
         if (!validQuery){
@@ -153,7 +161,7 @@ public class ReviewList {
 
     public void printKey (String word){
         //method to call when you want to print all the reviews that have given word
-        HashSet<String>  docList = searchIndex(word);
+        ArrayList<String>  docList = searchIndex(word);
 
         if (docList.size() == 0){
             System.out.println("No such element exists");
@@ -181,6 +189,13 @@ public class ReviewList {
         }
 
         return;
+    }
+
+    public void printAsin (String asin){
+        ArrayList<String> docs = findAsin(asin);
+        for (String review : docs){
+            System.out.println(review);
+        }
     }
 
     public HashMap<String, String> getIdToReviews() {

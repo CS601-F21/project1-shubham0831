@@ -20,9 +20,8 @@ public class Test {
         for (String key : idToReviews.keySet()){
             System.out.println(key + " --> " + idToReviews.get(key));
         }
-//        HashMap<String, HashSet<String>> index = i.getInvertedIndex();
         System.out.println("==============");
-//        r.searchIndex("it");
-        System.out.println(r.searchIndex("its"));
+        r.printKey("it");
+        //System.out.println(r.searchIndex("its"));
     }
 }

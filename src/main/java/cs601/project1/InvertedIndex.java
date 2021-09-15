@@ -5,40 +5,47 @@
 */
 
 //references https://stackoverflow.com/questions/11796985/java-regular-expression-to-remove-all-non-alphanumeric-characters-except-spaces to get regex for removing non-alphanumeric characters
-//           https://stackoverflow.com/a/64271783 to learn how to match a whole word
+//           https://stackoverflow.com/a/64271783 to learn how to match a whole word //didn't end up using it
+//           https://www.geeksforgeeks.org/iterate-treemap-in-reverse-order-in-java/ to learn how to iterate a treemap in reverse order
+
+//implemented validateKeys to check whether the key is valid or not in the ReviewList and QAList method instead of over here, since the keys were not valid for this use case, our invertedIndex
+//does infact
 
 package cs601.project1;
 
-import java.security.InvalidParameterException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.*;
+
 
 public class InvertedIndex {
     /*
-        Constructor -> takes an ArrayList of file locations as the argument.
+        Constructor -> doesn't take any argument
 
         We need to have a data structure for each unique document for search and retrieval
 
-        Algorithm for populating the invertedIndex -> 1) Read all the files in said array list and create list of the objects said file contains
-                                                      2) Once we have the list of the objects, for every object in that list use the toString method
-                                                      3) Once we have used the toString method in said object, we then tokenize and clean the strings
-                                                      4) Then we add those strings to our index HashMap with the string being the key, the docName (or) docID (tbd) being the value
+        Algorithm for populating the invertedIndex -> 1) Split document to words, then add each word to the inverted index, and the document which the word occurs in, in the hashset of documents
+                                                      2) Also while we are inserting a word, we also update the count of the number of times the given word has occurred in the wordCountInDoc
 
-        Algorithm for search and retrieval -> 1) Given the word we have to search, look up from our inverted index the documents it is present in
-                                              2) Once we have the list/set of documents, we need to search the document for the given word //todo
+        Algorithm for fullSearch -> 1) Retrieve the set of documents which have the given word
+                                    2) Get count of number of times the word has appeared in the document
+                                    3) Store the count and docId in a treeMap with the count being the id
+                                    4) Traverse the treeMap in reverse order and keep adding the documents to the arrayList
+                                    5) Return the arrayList
+
+        Algorithm for partialSearch -> 1) For every key in inverted index, if the key contains the word, store the document in a set
+                                       2) Return the set of documents. Since we do not need to implement sorting, this is enough.
+
     */
 
-    /*
-        todo implement sorting as well, show results where the words appear most frequently
-    */
-    private HashMap <String, HashSet<String>> invertedIndex = new HashMap<>(); //is the inverted index
+    private HashMap <String, HashSet<String>> invertedIndex; //is the inverted index
 
     //this hashmap will have keys as the docId, and the value will be the HashMap which has the key as the word and the value as the number of
     //times the word has occurred in the document.
-    private HashMap <String, HashMap<String, Integer>> wordCountInDoc = new HashMap<>(); //keep this
+    private HashMap <String, HashMap<String, Integer>> wordCountInDoc; //is the hashmap we use for retrieving the count of the word in a given document
+
+    public InvertedIndex (){
+        this.invertedIndex = new HashMap<>();
+        this.wordCountInDoc = new HashMap<>();
+    }
 
 
     public HashMap<String, HashMap<String, Integer>> getWordCountInDoc() {
@@ -87,10 +94,34 @@ public class InvertedIndex {
     }
 
 
-    public HashSet<String> find (String key){
+    public ArrayList<String> find (String key){
         key = key.toLowerCase(); //all indexes are in lowerCase
         HashSet<String> docs = searchIndex(key, true); // is the set of doc ID which contains the given string
-        return docs;
+
+        TreeMap<Integer, ArrayList<String>> docWordCount = new TreeMap<>(Collections.reverseOrder()); //using tree map because it allows to sort on the basis of the key
+        for (String docId : docs){
+            int count = wordCountInDoc.get(docId).get(key); //for every document that contains the word, get the count of the word
+            if (!docWordCount.containsKey(count)){
+                ArrayList<String> docList = new ArrayList<>();
+                docList.add(docId);
+                docWordCount.put(count, docList);
+            }
+            else {
+                docWordCount.get(count).add(docId);
+            }
+        }
+
+        ArrayList<String> docsInSortedOrder = new ArrayList<>();
+        for (int count : docWordCount.keySet()){
+            //count will be in descending order, for each count we have a bunch of documents (documents with same number of occurence of the given word)
+            //we put those documents in the docsInSortedOrder arraylist  then return the arrayList
+            ArrayList<String> docList = docWordCount.get(count);
+            System.out.println(count + " ---> " + docList);
+            for (String doc : docList){
+                docsInSortedOrder.add(doc);
+            }
+        }
+        return docsInSortedOrder;
     }
 
     public HashSet<String> partialFind (String key){
