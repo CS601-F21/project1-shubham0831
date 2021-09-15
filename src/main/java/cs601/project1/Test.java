@@ -14,14 +14,17 @@ public class Test {
         String file2 = "/home/shubham/IdeaProjects/project1-shubham0831/qa_Cell_Phones_and_Accessories.json";
 
         ReviewList r = new ReviewList("ISO-8859-1");
+        QAList qa = new QAList("ISO-8859-1");
         r.addToIndex(file1);
-        HashMap<String, String> idToReviews = r.getIdToReviews();
-        InvertedIndex i = r.getIndex();
-        for (String key : idToReviews.keySet()){
-            System.out.println(key + " --> " + idToReviews.get(key));
-        }
+        qa.addToIndex(file2);
+        HashMap<String, String> idToReviews = r.getIdToItems();
+        HashMap<String, String> idToQA = qa.getIdToItems();
+
+        System.out.println("Indexes built");
+
+        r.searchIndex("perfect");
         System.out.println("==============");
-        r.printKey("it");
-        //System.out.println(r.searchIndex("its"));
+        qa.searchIndex("perfect");
+
     }
 }

@@ -116,17 +116,18 @@ public class InvertedIndex {
             //count will be in descending order, for each count we have a bunch of documents (documents with same number of occurence of the given word)
             //we put those documents in the docsInSortedOrder arraylist  then return the arrayList
             ArrayList<String> docList = docWordCount.get(count);
-            System.out.println(count + " ---> " + docList);
             for (String doc : docList){
                 docsInSortedOrder.add(doc);
             }
         }
+        System.out.println(docsInSortedOrder.size());
         return docsInSortedOrder;
     }
 
     public HashSet<String> partialFind (String key){
         key = key.toLowerCase(); //all indexes are in lowerCase
         HashSet<String> docs = searchIndex(key, false); // is the set of doc ID which contains the given string
+        System.out.println(docs.size());
         return docs;
     }
 
