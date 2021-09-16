@@ -18,12 +18,13 @@ import java.security.InvalidParameterException;
 public class AmazonSearch {
 
     public static void main(String[] args) {
-        boolean validParameter = validateParameters(args);
+        boolean validParameter = validateParameters(args); //validating params
         if (!validParameter){
             throw new InvalidParameterException("The input paramters are not in the expected format\n" +
                                                 "The correct format for entering the parameters is -reviews <review_file_name> -qa <qa_file_name>");
         }
 
+        //getting file arg
         String reviewFile = args[1];
         String qaFile = args[3];
 
@@ -31,7 +32,7 @@ public class AmazonSearch {
         QAList qaList = new QAList("ISO-8859-1"); //creating QAList
 
         ProjectUI ui = new ProjectUI(reviewList, reviewFile, qaList, qaFile);
-        ui.startUI();
+        ui.startUI(); //starting ui
 
     }
 
@@ -41,10 +42,10 @@ public class AmazonSearch {
             return false; //incorrect number of arguments
         }
         if (!parameter[0].equals("-reviews") && !parameter[2].equals("-qa")){
-            return false;
+            return false; //incorrect order
         }
         if (!parameter[1].endsWith(".json") && !parameter[3].endsWith(".json")){
-            return false;
+            return false; //incorrect file type
         }
         return true;
     }
