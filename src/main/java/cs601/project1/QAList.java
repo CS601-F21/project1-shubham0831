@@ -1,3 +1,9 @@
+/*
+ Author Name : Shubham Pareek
+ Class function : Contains a list of the QuestionAnswer object as well as the mapping to and fro from docId to document
+ Project Number : 1
+*/
+
 package cs601.project1;
 
 import com.google.gson.Gson;

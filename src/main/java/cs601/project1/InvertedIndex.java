@@ -38,8 +38,7 @@ public class InvertedIndex {
 
     private HashMap <String, HashSet<String>> invertedIndex; //is the inverted index
 
-    //this hashmap will have keys as the docId, and the value will be the HashMap which has the key as the word and the value as the number of
-    //times the word has occurred in the document.
+    //this hashmap will have docIds as the keys, and the value will be a HashMap which has the word as the key and the count of that word in the doc as the value
     private HashMap <String, HashMap<String, Integer>> wordCountInDoc; //is the hashmap we use for retrieving the count of the word in a given document
 
     public InvertedIndex (){
@@ -47,10 +46,6 @@ public class InvertedIndex {
         this.wordCountInDoc = new HashMap<>();
     }
 
-
-    public HashMap<String, HashMap<String, Integer>> getWordCountInDoc() {
-        return wordCountInDoc;
-    }
 
     public void addDocument (String line, String docId){
         //method to add documents to the invertedIndex
@@ -86,6 +81,7 @@ public class InvertedIndex {
                     wordCountInDoc.get(docId).put(word, 1);
                 }
                 else {
+                    //otherwise we just update the count of the word
                     int newCount = wordCountInDoc.get(docId).get(word) + 1; //updating the count
                     wordCountInDoc.get(docId).put(word, newCount); //putting the new count
                 }
@@ -99,14 +95,18 @@ public class InvertedIndex {
         HashSet<String> docs = searchIndex(key, true); // is the set of doc ID which contains the given string
 
         if (docs == null){
-            System.out.println("No such element found");
+//            System.out.println("No such element found");
             return new ArrayList<String>();
         }
 
-        TreeMap<Integer, ArrayList<String>> docWordCount = new TreeMap<>(Collections.reverseOrder()); //using tree map because it allows to sort on the basis of the key
+        //structure of this tree map is as follows
+        //key -> integer value having the count of the word
+        //value -> list of documents that have the word and the count of the word is the same as the key
+        TreeMap<Integer, ArrayList<String>> docWordCount = new TreeMap<>(Collections.reverseOrder()); //using tree map because it sorts the input on the basis of the key
         for (String docId : docs){
             int count = wordCountInDoc.get(docId).get(key); //for every document that contains the word, get the count of the word
             if (!docWordCount.containsKey(count)){
+                //using an arraylist since our docs are in a set and we do not have to worry about duplicates
                 ArrayList<String> docList = new ArrayList<>();
                 docList.add(docId);
                 docWordCount.put(count, docList);
@@ -116,6 +116,8 @@ public class InvertedIndex {
             }
         }
 
+        //once we have the treemap, we can just iterate it (which will be in descending order) and add all the docs which have the given word in a sorted order by
+        //term frequency
         ArrayList<String> docsInSortedOrder = new ArrayList<>();
         for (int count : docWordCount.keySet()){
             //count will be in descending order, for each count we have a bunch of documents (documents with same number of occurence of the given word)
@@ -125,14 +127,14 @@ public class InvertedIndex {
                 docsInSortedOrder.add(doc);
             }
         }
-        System.out.println(docsInSortedOrder.size()); //temp solution to check count of docs found
+//        System.out.println(docsInSortedOrder.size()); //temp solution to check count of docs found
         return docsInSortedOrder;
     }
 
     public HashSet<String> partialFind (String key){
         key = key.toLowerCase(); //all indexes are in lowerCase
         HashSet<String> docs = searchIndex(key, false); // is the set of doc ID which contains the given string
-        System.out.println(docs.size());
+//        System.out.println(docs.size()); //temp solution to check count of docs found
         return docs;
     }
 
@@ -163,5 +165,9 @@ public class InvertedIndex {
 
     public HashMap<String, HashSet<String>> getInvertedIndex() {
         return invertedIndex;
+    }
+
+    public HashMap<String, HashMap<String, Integer>> getWordCountInDoc() {
+        return wordCountInDoc;
     }
 }

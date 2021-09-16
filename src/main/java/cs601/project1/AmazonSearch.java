@@ -10,10 +10,6 @@
 
 package cs601.project1;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
-
 public class AmazonSearch {
 
     public static void main(String[] args) {
@@ -23,7 +19,6 @@ public class AmazonSearch {
         ReviewList r = new ReviewList("ISO-8859-1");
         QAList qa = new QAList("ISO-8859-1");
 //
-//        r.addToIndex(file1);
 //        qa.addToIndex(file2);
 //
 //        HashMap<String, ArrayList<String>> aToI= qa.getAsinToItem();

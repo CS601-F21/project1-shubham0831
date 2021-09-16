@@ -1,6 +1,6 @@
 /*
     Author Name : Shubham Pareek
-    Class function : Blueprint of a review object and everything that it contains
+    Class function : Blueprint of a review object and everything that it contains as well as has mapping to and fro from docId to review object
     Project Number : 1
      Reference:
         https://stackoverflow.com/a/38194881 to learn how to convert an Object ArrayList to that of a specified class
@@ -9,20 +9,9 @@ package cs601.project1;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Locale;
 
-/*
-    ReviewList and QAList will have alot of the same methods. So we make an abstract class ItemList which will have those common methods as well as abstract methods for when we
-    need our own implementation.
-
-    common methods -> cleanString, searchIndex, partialSearchIndex, validateQuery, findASIN, printKey, printPartialKey, printAsin
-    abstract methods -> populateReviewList ( will become populateList), populateReviewsToBeIndexed ( -> populateListToBeIndexed), populateAsinToReviews ( -> populateAsinToItems), addToIndex
-
-    common variables -> reviewsToBeIndexed (-> itemToBeIndexed), idToReviews (-> idToItems), asinToReview (-> asinToItem), invertedIndex
-*/
 
 public class ReviewList extends ItemList {
 

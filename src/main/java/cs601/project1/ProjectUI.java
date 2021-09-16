@@ -44,6 +44,9 @@ public class ProjectUI {
 
         Scanner sc = new Scanner(System.in, "ISO-8859-1");
         String command = sc.nextLine();
+        if (command.split(" ").length != 2){
+            throw new IllegalArgumentException("Invalid command, try again");
+        }
         String instruction = command.split(" ")[0].strip();
         String word = command.split(" ")[1].strip();
 
@@ -71,31 +74,31 @@ public class ProjectUI {
 
     private void printAsin (String word){
         System.out.println("reviews : ");
-//        r.printAsin(word);
-        r.findAsin(word);
+        r.printAsin(word);
+//        r.findAsin(word);
         System.out.println("QAs : ");
-//        qa.printAsin(word);
-        qa.findAsin(word);
+        qa.printAsin(word);
+//        qa.findAsin(word);
     }
 
     private void reviewSearch (String word){
-//        r.printKey(word);
-        r.searchIndex(word);
+        r.printKey(word);
+//        r.searchIndex(word);
     }
 
     private void qaSearch (String word){
-//        qa.printKey(word);
-        qa.searchIndex(word);
+        qa.printKey(word);
+//        qa.searchIndex(word);
     }
 
     private void reviewPartialSearch (String word){
-//        r.printPartialKey(word);
-        r.partialSearchIndex(word);
+        r.printPartialKey(word);
+//        r.partialSearchIndex(word);
     }
 
     private void qaPartialSearch (String word){
-//        qa.printPartialKey(word);
-        qa.partialSearchIndex(word);
+        qa.printPartialKey(word);
+//        qa.partialSearchIndex(word);
     }
 
 
