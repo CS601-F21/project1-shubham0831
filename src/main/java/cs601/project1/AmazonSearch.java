@@ -18,16 +18,16 @@ import java.security.InvalidParameterException;
 public class AmazonSearch {
 
     public static void main(String[] args) {
-//        String reviewFile = "/home/shubham/IdeaProjects/project1-shubham0831/Cell_Phones_and_Accessories_5.json";
-//        String qaFile = "/home/shubham/IdeaProjects/project1-shubham0831/qa_Cell_Phones_and_Accessories.json";
-        boolean validParameter = validateParameters(args);
-        if (!validParameter){
-            throw new InvalidParameterException("The input paramters are not in the expected format\n" +
-                                                "The correct format for entering the parameters is -reviews <review_file_name> -qa <qa_file_name>");
-        }
-
-        String reviewFile = args[1];
-        String qaFile = args[3];
+        String reviewFile = "/home/shubham/IdeaProjects/project1-shubham0831/Cell_Phones_and_Accessories_5.json";
+        String qaFile = "/home/shubham/IdeaProjects/project1-shubham0831/qa_Cell_Phones_and_Accessories.json";
+//        boolean validParameter = validateParameters(args);
+//        if (!validParameter){
+//            throw new InvalidParameterException("The input paramters are not in the expected format\n" +
+//                                                "The correct format for entering the parameters is -reviews <review_file_name> -qa <qa_file_name>");
+//        }
+//
+//        String reviewFile = args[1];
+//        String qaFile = args[3];
 
         ReviewList reviewList = new ReviewList("ISO-8859-1"); //creating ReviewList
         QAList qaList = new QAList("ISO-8859-1"); //creating QAList
