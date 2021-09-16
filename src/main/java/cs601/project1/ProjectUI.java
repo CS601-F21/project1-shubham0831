@@ -50,6 +50,10 @@ public class ProjectUI {
         String command = sc.nextLine();
         if (command.split(" ").length != 2){
             //our commands have to be of 2 words
+            if (command.equals("exit")){
+                running = false;
+                return;
+            }
             throw new IllegalArgumentException("Invalid command, try again");
         }
         String instruction = command.split(" ")[0].strip(); //getting the instruction
