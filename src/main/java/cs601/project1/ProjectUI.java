@@ -58,18 +58,23 @@ public class ProjectUI {
         //if-else to figure out what command is for what and run appropriate method
         if (instruction.equals("find")){
             printAsin(word);
+            System.out.println("==========================================");
         }
         else if (instruction.equals("reviewsearch")){
             reviewSearch(word);
+            System.out.println("==========================================");
         }
         else if (instruction.equals("qasearch")){
             qaSearch(word);
+            System.out.println("==========================================");
         }
         else if (instruction.equals("reviewpartialsearch")){
             reviewPartialSearch(word);
+            System.out.println("==========================================");
         }
         else if (instruction.equals("qapartialsearch")){
             qaPartialSearch(word);
+            System.out.println("==========================================");
         }
         else {
             //if command is anything else, we stop running our program

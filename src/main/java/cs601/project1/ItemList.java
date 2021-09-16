@@ -116,6 +116,7 @@ public abstract class ItemList {
 
         for (String id : docList){
             System.out.println(idToItems.get(id));
+            System.out.println("-----------");
         }
 
         return;
@@ -133,6 +134,7 @@ public abstract class ItemList {
 
         for (String id : docList){
             System.out.println(idToItems.get(id));
+            System.out.println("-----------");
         }
 
         return;
@@ -150,6 +152,7 @@ public abstract class ItemList {
 
         for (String review : docs){
             System.out.println(review);
+            System.out.println("-----------");
         }
     }
 
