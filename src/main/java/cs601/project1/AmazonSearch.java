@@ -37,6 +37,7 @@ public class AmazonSearch {
     }
 
     private static boolean validateParameters(String[] parameter) {
+        //method to validate the params
         //currently we only accept json file, so if file is in another format, we don't allow it
         if (parameter.length != 4){
             return false; //incorrect number of arguments
