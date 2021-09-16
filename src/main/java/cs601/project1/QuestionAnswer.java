@@ -16,6 +16,7 @@ public class QuestionAnswer {
     private String answer;
 
     public QuestionAnswer(String questionType, String asin, String answerTime, String unixTime, String question, String answerType, String answer) {
+        //constructor initializing the variables
         this.questionType = questionType;
         this.asin = asin;
         this.answerTime = answerTime;
@@ -26,6 +27,7 @@ public class QuestionAnswer {
     }
 
 
+    //getters start
     public String getQuestionType() {
         return questionType;
     }
@@ -53,9 +55,11 @@ public class QuestionAnswer {
     public String getAnswer() {
         return answer;
     }
+    //getters end
 
     @Override
     public String toString() {
+        //toString method, to represent the object in string
         if (answerType == null){
             //do not return the answer type if the answerType is null
             //need it since answerType is an optional field only present when the

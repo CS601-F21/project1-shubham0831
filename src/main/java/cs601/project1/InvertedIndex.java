@@ -1,26 +1,19 @@
 /*
  Author Name : Shubham Pareek
- Class function : Blueprint of an inverted index, and how it will store data. // more details below
+ Class function : Blueprint of an inverted index, and how it will store data.
  Project Number : 1
 */
 
 //references https://stackoverflow.com/questions/11796985/java-regular-expression-to-remove-all-non-alphanumeric-characters-except-spaces to get regex for removing non-alphanumeric characters
-//           https://stackoverflow.com/a/64271783 to learn how to match a whole word //didn't end up using it
 //           https://www.geeksforgeeks.org/iterate-treemap-in-reverse-order-in-java/ to learn how to iterate a treemap in reverse order
-
-//implemented validateKeys to check whether the key is valid or not in the ReviewList and QAList method instead of over here, since the keys were not valid for this use case, our invertedIndex
-//does infact
 
 package cs601.project1;
 
 import java.util.*;
 
-
 public class InvertedIndex {
     /*
         Constructor -> doesn't take any argument
-
-        We need to have a data structure for each unique document for search and retrieval
 
         Algorithm for populating the invertedIndex -> 1) Split document to words, then add each word to the inverted index, and the document which the word occurs in, in the hashset of documents
                                                       2) Also while we are inserting a word, we also update the count of the number of times the given word has occurred in the wordCountInDoc
@@ -36,23 +29,25 @@ public class InvertedIndex {
 
     */
 
+    //invertedIndex is a HashMap with a particular word as the key, and the corresponding value being the set of documents the given word appears in.
     private HashMap <String, HashSet<String>> invertedIndex; //is the inverted index
 
     //this hashmap will have docIds as the keys, and the value will be a HashMap which has the word as the key and the count of that word in the doc as the value
     private HashMap <String, HashMap<String, Integer>> wordCountInDoc; //is the hashmap we use for retrieving the count of the word in a given document
 
     public InvertedIndex (){
+        //constructor just for instantiating the invertedIndex and the wordCountInDoc
         this.invertedIndex = new HashMap<>();
         this.wordCountInDoc = new HashMap<>();
     }
 
-
     public void addDocument (String line, String docId){
         //method to add documents to the invertedIndex
+        //given a sentence, this method will break down the sentence to individual words then add the word and docId to the invertedIndex
 
         String [] words = line.split(" ");
         for (String word : words){
-            word = word.toLowerCase().strip();
+            word = word.toLowerCase().strip(); //every word that will enter our index and count will be in lower case
 
             //first we update the invertedIndex
             if (!invertedIndex.containsKey(word) && word != ""){
@@ -63,12 +58,13 @@ public class InvertedIndex {
                 invertedIndex.put(word, docSet);
             }
             else if (word != ""){
-                invertedIndex.get(word).add(docId); //get the set of docs which contain the word, and add current docs
-                                                    //to that set
+                //else get the set of docs which contain the word, and add current docs to that set
+                invertedIndex.get(word).add(docId);
             }
 
             //now we update the word count
             if (!wordCountInDoc.containsKey(docId) && word != ""){
+                //if we do not have the document in our wordCountInDoc, we add it, along with the word and the number of times it has appeared in the doc (ie. 1 in this case)
                 HashMap <String, Integer> wordCount = new HashMap<>();
                 wordCount.put(word, 1);
                 wordCountInDoc.put(docId, wordCount);
@@ -91,11 +87,15 @@ public class InvertedIndex {
 
 
     public ArrayList<String> find (String key){
+        /*
+            method to find and return the list of docs which have the given word
+            method returns an arraylist of document id's, the list is sorted in descending order of the number of times the given word has appeared in it.
+         */
         key = key.toLowerCase(); //all indexes are in lowerCase
-        HashSet<String> docs = searchIndex(key, true); // is the set of doc ID which contains the given string
+        HashSet<String> docs = searchIndex(key, true); // is the set of doc ID which contains the given string //fullWord is true because we need to do a fullSearch
 
         if (docs == null){
-//            System.out.println("No such element found");
+            //if our set is empty we just return an empty arraylist
             return new ArrayList<String>();
         }
 
@@ -132,14 +132,19 @@ public class InvertedIndex {
     }
 
     public HashSet<String> partialFind (String key){
+        /*
+            Method for partialFind, takes in input a word, and return a set of all the documents which contain the word
+        */
         key = key.toLowerCase(); //all indexes are in lowerCase
-        HashSet<String> docs = searchIndex(key, false); // is the set of doc ID which contains the given string
+        HashSet<String> docs = searchIndex(key, false); // is the set of doc ID which contains the given string //fullWord is false because we need to do a partial search
 //        System.out.println(docs.size()); //temp solution to check count of docs found
         return docs;
     }
 
     private HashSet<String> searchIndex (String word, boolean fullWord){
         /*
+            This is the method where we will actually search for the word
+
             params -> word -> word to be searched for
                       fullWord -> is a boolean which if true means we search for a full word
                                   else we search for partial word
@@ -148,12 +153,15 @@ public class InvertedIndex {
 
         */
         if (fullWord){
+            //searching for full word, just looking up at the invertedIndex
             return invertedIndex.get(word);
         }
 
-        //since method has to return a set, we create one, and add documents which contain said partial word into this set
-        HashSet<String> docs = new HashSet<>();
+        //searching for partial word
+        //since method returns a set, we create one, and add documents which contain said partial word into this set
+        HashSet<String> docs = new HashSet<>();//set of docs which contain the partial word
         for (String key : invertedIndex.keySet()){
+            //for every key in index, if key contains word, add all the docs which contain that key
             if (key.contains(word)){
                 for (String d : invertedIndex.get(key)){
                     docs.add(d);
@@ -164,10 +172,12 @@ public class InvertedIndex {
     }
 
     public HashMap<String, HashSet<String>> getInvertedIndex() {
+        //getter method for invertedIndex
         return invertedIndex;
     }
 
     public HashMap<String, HashMap<String, Integer>> getWordCountInDoc() {
+        //getter method of wordCountInDoc
         return wordCountInDoc;
     }
 }

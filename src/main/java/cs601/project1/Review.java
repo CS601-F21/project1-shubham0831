@@ -20,6 +20,7 @@ public class Review {
     private String reviewTime;
 
     public Review(String reviewerID, String asin, String reviewerName, String[] helpful, String reviewText, String overall, String summary, String unixReviewTime, String reviewTime) {
+        //constructor initializing the variables
         this.reviewerID = reviewerID;
         this.asin = asin;
         this.reviewerName = reviewerName;
@@ -31,6 +32,7 @@ public class Review {
         this.reviewTime = reviewTime;
     }
 
+    //getters start
     public String getReviewerID() {
         return reviewerID;
     }
@@ -66,9 +68,11 @@ public class Review {
     public String getReviewTime() {
         return reviewTime;
     }
+    //getters end
 
     @Override
     public String toString() {
+        //string representation of obejct
         return  "reviewerID: '" + reviewerID + '\'' +
                 ", asin: '" + asin + '\'' +
                 ", reviewerName: '" + reviewerName + '\'' +

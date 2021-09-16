@@ -1,32 +1,53 @@
 /*
  Author Name : Shubham Pareek
- Class function : Main // more details below
+ Class function : Main
  Project Number : 1
 */
 
 /*
-    This is the main class from where the user will create inverted index and perform actions on it as they desire.
+    This file contains the main method, what this method does is given a valid input, it will create a reviewList and QAList object and then pass that object
+    alongside the fileLoc to the ProjectUI object. Then it will start the whole UI.
+
+    Validation of input is done with the help of validateParameters method.
 */
 
 package cs601.project1;
 
+import java.security.InvalidParameterException;
+
 public class AmazonSearch {
 
     public static void main(String[] args) {
-        String file1 = "/home/shubham/IdeaProjects/project1-shubham0831/Cell_Phones_and_Accessories_5.json";
-        String file2 = "/home/shubham/IdeaProjects/project1-shubham0831/qa_Cell_Phones_and_Accessories.json";
+//        String reviewFile = "/home/shubham/IdeaProjects/project1-shubham0831/Cell_Phones_and_Accessories_5.json";
+//        String qaFile = "/home/shubham/IdeaProjects/project1-shubham0831/qa_Cell_Phones_and_Accessories.json";
+        boolean validParameter = validateParameters(args);
+        if (!validParameter){
+            throw new InvalidParameterException("The input paramters are not in the expected format\n" +
+                                                "The correct format for entering the parameters is -reviews <review_file_name> -qa <qa_file_name>");
+        }
 
-        ReviewList r = new ReviewList("ISO-8859-1");
-        QAList qa = new QAList("ISO-8859-1");
-//
-//        qa.addToIndex(file2);
-//
-//        HashMap<String, ArrayList<String>> aToI= qa.getAsinToItem();
-//        System.out.println(aToI.get("1466736038").size());
+        String reviewFile = args[1];
+        String qaFile = args[3];
 
-        ProjectUI ui = new ProjectUI(r, file1, qa, file2);
+        ReviewList reviewList = new ReviewList("ISO-8859-1"); //creating ReviewList
+        QAList qaList = new QAList("ISO-8859-1"); //creating QAList
+
+        ProjectUI ui = new ProjectUI(reviewList, reviewFile, qaList, qaFile);
         ui.startUI();
 
-//        qa.findAsin("1466736038");
+    }
+
+    private static boolean validateParameters(String[] parameter) {
+        //currently we only accept json file, so if file is in another format, we don't allow it
+        if (parameter.length != 4){
+            return false; //incorrect number of arguments
+        }
+        if (!parameter[0].equals("-reviews") && !parameter[2].equals("-qa")){
+            return false;
+        }
+        if (!parameter[1].endsWith(".json") && !parameter[3].endsWith(".json")){
+            return false;
+        }
+        return true;
     }
 }
