@@ -54,7 +54,10 @@ public class ProjectUI {
                 running = false;
                 return;
             }
-            throw new IllegalArgumentException("Invalid command, try again");
+//            throw new IllegalArgumentException("Invalid command, try again");
+            System.out.println("Invalid command, quitting program");
+            running = false;
+            return;
         }
         String instruction = command.split(" ")[0].strip(); //getting the instruction
         String word = command.split(" ")[1].strip(); //getting the word

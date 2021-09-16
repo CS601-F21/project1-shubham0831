@@ -82,6 +82,12 @@ public abstract class ItemList {
 
     public ArrayList<String> findAsin (String asin){
         //given an asin key, this method will sarch the asinToItem HashMap and return the result which is an ArrayList
+        boolean validQuery = validateQuery(asin);
+        if (!validQuery){
+            //if query contains alphanumerics then it is not a valid query
+            throw new InvalidParameterException("Key should contain only alphanumerics");
+        }
+
         ArrayList<String> items = asinToItem.get(asin);
         if (items == null){
             //if no elements are found then we return an empty arraylist
