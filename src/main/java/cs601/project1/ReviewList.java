@@ -1,4 +1,7 @@
 /*
+    Author Name : Shubham Pareek
+    Class function : Blueprint of a review object and everything that it contains
+    Project Number : 1
      Reference:
         https://stackoverflow.com/a/38194881 to learn how to convert an Object ArrayList to that of a specified class
 */
@@ -9,6 +12,7 @@ import com.google.gson.JsonSyntaxException;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Locale;
 
 /*
     ReviewList and QAList will have alot of the same methods. So we make an abstract class ItemList which will have those common methods as well as abstract methods for when we
@@ -65,6 +69,7 @@ public class ReviewList extends ItemList {
     @Override
     public void populateItemsToBeIndexed() {
         //method to obtain the reviewText and populate the reviewsToBeIndexed list
+        int i = 0;
         for (Review r : reviewList){
             String review = r.getReviewText();
             itemsToBeIndexed.add(cleanString(review));
@@ -76,6 +81,7 @@ public class ReviewList extends ItemList {
         //method the user will call to add the reviews file to the index
         populateItemList(fileLoc); //first we populate the reviewList
         populateItemsToBeIndexed(); //then we populate the list of reviews we want to index
+        populateAsinToItems(); //we also populate the asin to item HashMap
 
         for (String review : itemsToBeIndexed){
             idNum++; //our id starts from R1
@@ -87,9 +93,10 @@ public class ReviewList extends ItemList {
 
     @Override
     public void populateAsinToItems() {
+        int i = 0;
         for (Review r : reviewList){
-            String asin = r.getAsin();
-            String review = r.getReviewText();
+            String asin = r.getAsin().toLowerCase();
+            String review = r.getReviewText().toLowerCase();
 
             if (!asinToItem.containsKey(asin)){
                 //if this is the first time we encounter the asin key, add it to the map along with the review

@@ -98,6 +98,11 @@ public class InvertedIndex {
         key = key.toLowerCase(); //all indexes are in lowerCase
         HashSet<String> docs = searchIndex(key, true); // is the set of doc ID which contains the given string
 
+        if (docs == null){
+            System.out.println("No such element found");
+            return new ArrayList<String>();
+        }
+
         TreeMap<Integer, ArrayList<String>> docWordCount = new TreeMap<>(Collections.reverseOrder()); //using tree map because it allows to sort on the basis of the key
         for (String docId : docs){
             int count = wordCountInDoc.get(docId).get(key); //for every document that contains the word, get the count of the word
@@ -120,7 +125,7 @@ public class InvertedIndex {
                 docsInSortedOrder.add(doc);
             }
         }
-        System.out.println(docsInSortedOrder.size());
+        System.out.println(docsInSortedOrder.size()); //temp solution to check count of docs found
         return docsInSortedOrder;
     }
 

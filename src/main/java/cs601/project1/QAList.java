@@ -65,6 +65,7 @@ public class QAList extends ItemList{
         //method the user will call to add the reviews file to the index
         populateItemList(fileLoc); //first we populate the reviewList
         populateItemsToBeIndexed(); //then we populate the list of reviews we want to index
+        populateAsinToItems();
 
         for (String qa : itemsToBeIndexed){
             idNum++; //our id starts from R1
@@ -77,8 +78,9 @@ public class QAList extends ItemList{
     @Override
     public void populateAsinToItems() {
         for (QuestionAnswer qa : qaList){
-            String asin = qa.getAsin();
+            String asin = qa.getAsin().toLowerCase();
             String questionAnswer = qa.getQuestion() + " " + qa.getAnswer();
+            questionAnswer = questionAnswer.toLowerCase();
 
             if (!asinToItem.containsKey(asin)){
                 //if this is the first time we encounter the asin key, add it to the map along with the review

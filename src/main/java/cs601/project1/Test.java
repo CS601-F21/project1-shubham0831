@@ -1,10 +1,8 @@
 package cs601.project1;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Scanner;
+
 
 //we will use the FileOperator class to do operations on the file
 
@@ -15,16 +13,11 @@ public class Test {
 
         ReviewList r = new ReviewList("ISO-8859-1");
         QAList qa = new QAList("ISO-8859-1");
+
         r.addToIndex(file1);
         qa.addToIndex(file2);
-        HashMap<String, String> idToReviews = r.getIdToItems();
-        HashMap<String, String> idToQA = qa.getIdToItems();
 
-        System.out.println("Indexes built");
-
-        r.searchIndex("perfect");
-        System.out.println("==============");
-        qa.searchIndex("perfect");
+        qa.findAsin("1466736038");
 
     }
 }

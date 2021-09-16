@@ -41,7 +41,7 @@ public abstract class ItemList {
         boolean validQuery = validateQuery(word);
         if (!validQuery){
             //if query contains alphanumerics then it is not a valid query
-            throw new InvalidParameterException("Key should not contain alphanumerics");
+            throw new InvalidParameterException("Key should only contain alphanumerics");
         }
         return index.find(word);
     }
@@ -50,7 +50,7 @@ public abstract class ItemList {
         boolean validQuery = validateQuery(word);
         if (!validQuery){
             //if query contains alphanumerics then it is not a valid query
-            throw new InvalidParameterException("Key should not contain alphanumerics");
+            throw new InvalidParameterException("Key should contain only alphanumerics");
         }
         return index.partialFind(word);
     }
@@ -65,10 +65,18 @@ public abstract class ItemList {
         return p.matcher(word).find();
     }
 
+    public HashMap<String, ArrayList<String>> getAsinToItem() {
+        return asinToItem;
+    }
+
     public ArrayList<String> findAsin (String asin){
-        populateAsinToItems();
-        ArrayList<String> reviews = asinToItem.get(asin);
-        return reviews;
+        ArrayList<String> items = asinToItem.get(asin);
+        if (items == null){
+            System.out.println("No such review found");
+            return new ArrayList<String>();
+        }
+        System.out.println(items.size());
+        return items;
     }
 
     public void printKey (String word){
@@ -76,7 +84,7 @@ public abstract class ItemList {
         ArrayList<String>  docList = searchIndex(word);
 
         if (docList.size() == 0){
-            System.out.println("No such element exists");
+            System.out.println("No such document exists");
             return;
         }
 
